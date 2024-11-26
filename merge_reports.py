@@ -56,7 +56,7 @@ Please provide a single, well-structured academic report that integrates all thi
     try:
         response = client.messages.create(
             model="claude-3-sonnet-20240229",
-            max_tokens=4096,
+            max_tokens=100000,  # Increased token limit
             temperature=0.3,
             messages=[
                 {
@@ -75,7 +75,8 @@ Please provide a single, well-structured academic report that integrates all thi
 
 def main():
     parser = argparse.ArgumentParser(description='Merge research reports using Claude Sonnet')
-    parser.add_argument('--output', required=True, help='Path for the merged report output')
+    parser.add_argument('--output', default='results/merged_report.md', 
+                       help='Path for the merged report output (default: results/merged_report.md)')
     
     args = parser.parse_args()
     
@@ -119,6 +120,9 @@ def main():
     
     print(f"\nMerging {len(all_reports)} reports...")
     merged_report = merge_reports(client, all_reports)
+    
+    # Ensure results directory exists
+    os.makedirs(os.path.dirname(args.output), exist_ok=True)
     
     # Save merged report
     with open(args.output, 'w') as f:
