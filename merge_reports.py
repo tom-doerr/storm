@@ -11,12 +11,16 @@ def read_topics_file(topics_file: str) -> List[str]:
 
 def find_report_files(results_dir: str, topic: str) -> List[str]:
     """Find polished report files for a given topic in results directory."""
-    topic_safe = topic.replace(" ", "_").lower()
+    # Convert topic line to directory name format
+    topic_dir = topic.replace(": ", ":_").replace(", ", ",_").replace(" ", "_")
+    
     matches = []
-    for root, _, files in os.walk(results_dir):
-        for file in files:
-            if topic_safe in file.lower() and "polished_report" in file.lower():
-                matches.append(os.path.join(root, file))
+    # Look in both gpt and claude subdirectories
+    for model_dir in ['gpt', 'claude']:
+        full_path = os.path.join(results_dir, model_dir, topic_dir, "storm_gen_article_polished.txt")
+        if os.path.exists(full_path):
+            matches.append(full_path)
+    
     return matches
 
 def read_report_content(file_path: str) -> str:
@@ -88,13 +92,16 @@ def main():
     
     all_reports = []
     for topic in topics:
-        report_files = find_report_files(args.results_dir, topic)
+        report_files = find_report_files(str(results_dir), topic)
         print(f"Found {len(report_files)} report files for topic: {topic}")
         for file_path in report_files:
-            content = read_report_content(file_path)
-            if content:
-                all_reports.append(content)
-                print(f"Added content from: {file_path}")
+            try:
+                content = read_report_content(file_path)
+                if content:
+                    all_reports.append(content)
+                    print(f"Added content from: {file_path}")
+            except Exception as e:
+                print(f"Error reading {file_path}: {e}")
     
     if not all_reports:
         print("No report files found!")
