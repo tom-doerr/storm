@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  storm:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_API_TYPE=${OPENAI_API_TYPE}
+      - AZURE_API_BASE=${AZURE_API_BASE}
+      - AZURE_API_VERSION=${AZURE_API_VERSION}
+      - YDC_API_KEY=${YDC_API_KEY}
+    ports:
+      - "8501:8501"  # For Streamlit frontend if needed
