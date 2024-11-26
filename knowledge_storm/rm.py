@@ -559,6 +559,8 @@ class SerperRM(dspy.Retrieve):
         return collected_results
 
 
+import urllib.parse
+
 class BraveRM(dspy.Retrieve):
     def __init__(
         self, brave_search_api_key=None, k=3, is_valid_source: Callable = None
