@@ -2,9 +2,5 @@ dspy_ai==2.4.9
 wikipedia==1.4.0
 sentence-transformers
 toml
-langchain-text-splitters
-trafilatura
-langchain-huggingface
-qdrant-client
-langchain-qdrant
 numpy==1.26.4
+torch --index-url https://download.pytorch.org/whl/cpu

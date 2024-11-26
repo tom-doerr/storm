@@ -2,25 +2,18 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install system dependencies
+# Install only essential system dependencies
 RUN apt-get update && apt-get install -y \
     git \
-    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements files
+# Copy only necessary files
 COPY requirements.txt .
-COPY frontend/demo_light/requirements.txt frontend/demo_light/requirements.txt
+COPY examples/storm_examples/run_storm_wiki_gpt.py examples/storm_examples/
+COPY knowledge_storm knowledge_storm/
 
 # Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir -r frontend/demo_light/requirements.txt && \
-    pip install --no-cache-dir aiohttp
-
-# Copy the rest of the application
-COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Set environment variables
 ENV PYTHONPATH=/app

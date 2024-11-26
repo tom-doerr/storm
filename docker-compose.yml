@@ -4,11 +4,8 @@ services:
   storm:
     build: .
     volumes:
-      - .:/app
       - ~/.cache/huggingface:/root/.cache/huggingface
     env_file:
       - .env
-    ports:
-      - "8501:8501"  # For Streamlit frontend if needed
-    tty: true
-    stdin_open: true
+    environment:
+      - DOCKER_BUILDKIT=0
