@@ -5,6 +5,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements files
@@ -12,8 +13,11 @@ COPY requirements.txt .
 COPY frontend/demo_light/requirements.txt frontend/demo_light/requirements.txt
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir -r frontend/demo_light/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r frontend/demo_light/requirements.txt && \
+    pip install --no-cache-dir aiohttp
 
 # Copy the rest of the application
 COPY . .
