@@ -2,6 +2,14 @@ FROM ubuntu:22.04
 
 WORKDIR /app
 
+# Update GPG keys and install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    gpg-agent \
+    wget \
+    && rm -rf /var/lib/apt/lists/* && \
+    wget -O - https://archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
 # Install Python and essential system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
