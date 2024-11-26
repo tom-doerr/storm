@@ -14,7 +14,8 @@ conda activate storm
 
 # Install required packages
 echo "Installing packages..."
-pip install knowledge-storm
+pip install "protobuf<=3.20.0" --force-reinstall
+pip install knowledge-storm streamlit
 
 # Create secrets.toml if it doesn't exist
 if [ ! -f secrets.toml ]; then
