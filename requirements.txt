@@ -8,5 +8,6 @@ langchain-huggingface
 qdrant-client
 langchain-qdrant
 numpy==1.26.4
-protobuf>=3.20.0,<4.0.0
-grpcio>=1.41.0
+protobuf==3.20.3
+grpcio==1.54.3
+grpcio-tools==1.54.3
