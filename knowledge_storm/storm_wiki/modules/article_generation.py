@@ -36,11 +36,15 @@ class StormArticleGenerationModule(ArticleGenerationModule):
         collected_info: List[Information] = []
         if information_table is not None:
             try:
+                logging.info(f"Retrieving information for section {section_name}")
+                logging.info(f"Section query: {section_query}")
                 collected_info = information_table.retrieve_information(
                     queries=section_query, search_top_k=self.retrieve_top_k
                 )
+                logging.info(f"Successfully retrieved {len(collected_info)} pieces of information")
             except ValueError as e:
                 logging.warning(f"Failed to retrieve information for section {section_name}: {e}")
+                logging.warning(f"Section query was: {section_query}")
                 collected_info = []
         output = self.section_gen(
             topic=topic,

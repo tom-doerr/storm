@@ -612,13 +612,16 @@ class BraveRM(dspy.Retrieve):
                     "Accept-Encoding": "gzip",
                     "X-Subscription-Token": self.brave_search_api_key,
                 }
+                logging.info(f"Searching Brave for query: {query}")
                 response = requests.get(
                     f"https://api.search.brave.com/res/v1/web/search?result_filter=web&q={query}",
                     headers=headers,
                 ).json()
                 results = response.get("web", {}).get("results", [])
+                logging.info(f"Got {len(results)} results from Brave")
 
                 for result in results:
+                    logging.debug(f"Processing result: {result.get('url')}")
                     collected_results.append(
                         {
                             "snippets": result.get("extra_snippets", []),
