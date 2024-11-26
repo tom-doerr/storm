@@ -1,5 +1,6 @@
 import os
 import argparse
+from pathlib import Path
 from anthropic import Anthropic
 from typing import List
 
@@ -60,18 +61,29 @@ Please provide a single, well-structured academic report that integrates all thi
 
 def main():
     parser = argparse.ArgumentParser(description='Merge research reports using Claude Sonnet')
-    parser.add_argument('--topics-file', required=True, help='Path to the storm topics file')
-    parser.add_argument('--results-dir', required=True, help='Path to the results directory')
     parser.add_argument('--output', required=True, help='Path for the merged report output')
-    parser.add_argument('--api-key', required=True, help='Anthropic API key')
     
     args = parser.parse_args()
     
+    # Get API key from environment
+    api_key = os.getenv('ANTHROPIC_API_KEY')
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY environment variable must be set")
+    
     # Initialize Anthropic client
-    client = Anthropic(api_key=args.api_key)
+    client = Anthropic(api_key=api_key)
+    
+    # Use fixed paths
+    topics_file = Path("storm_topics.txt")
+    results_dir = Path("results")
+    
+    if not topics_file.exists():
+        raise FileNotFoundError(f"Topics file not found: {topics_file}")
+    if not results_dir.exists():
+        raise FileNotFoundError(f"Results directory not found: {results_dir}")
     
     # Read topics and collect reports
-    topics = read_topics_file(args.topics_file)
+    topics = read_topics_file(str(topics_file))
     print(f"Found {len(topics)} topics in topics file")
     
     all_reports = []
