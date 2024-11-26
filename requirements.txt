@@ -4,3 +4,6 @@ sentence-transformers
 toml
 numpy==1.26.4
 torch --index-url https://download.pytorch.org/whl/cpu
+openai
+together
+tensorflow

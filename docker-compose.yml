@@ -2,10 +2,12 @@ version: '3.8'
 
 services:
   storm:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILDKIT_INLINE_CACHE: "0"
     volumes:
       - ~/.cache/huggingface:/root/.cache/huggingface
     env_file:
       - .env
-    environment:
-      - DOCKER_BUILDKIT=0
