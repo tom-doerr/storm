@@ -7,3 +7,4 @@ torch --index-url https://download.pytorch.org/whl/cpu
 openai
 together
 tensorflow
+aiohttp
