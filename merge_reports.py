@@ -55,7 +55,7 @@ Please provide a single, well-structured academic report that integrates all thi
     
     try:
         response = client.messages.create(
-            model="claude-3-5-sonnet",
+            model="claude-3-5-sonnet-20241022",
             max_tokens=100000,  # Increased token limit
             temperature=0.3,
             messages=[
