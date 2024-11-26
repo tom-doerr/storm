@@ -49,19 +49,29 @@ Please provide a single, well-structured academic report that integrates all thi
 
     formatted_reports = "\n\n=== NEW SECTION ===\n\n".join(reports)
     
-    response = client.messages.create(
-        model="claude-3-sonnet-20240229",
-        max_tokens=4096,
-        temperature=0.3,
-        messages=[
-            {
-                "role": "user",
-                "content": prompt.format(reports=formatted_reports)
-            }
-        ]
-    )
+    print(f"\nSending merge request to Claude API...")
+    print(f"Number of sections to merge: {len(reports)}")
+    print(f"Total input length: {len(formatted_reports)} characters")
     
-    return response.content[0].text
+    try:
+        response = client.messages.create(
+            model="claude-3-sonnet-20240229",
+            max_tokens=4096,
+            temperature=0.3,
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt.format(reports=formatted_reports)
+                }
+            ]
+        )
+        print(f"Received response from Claude API")
+        print(f"Response length: {len(response.content[0].text)} characters")
+        return response.content[0].text
+        
+    except Exception as e:
+        print(f"Error calling Claude API: {e}")
+        raise
 
 def main():
     parser = argparse.ArgumentParser(description='Merge research reports using Claude Sonnet')
