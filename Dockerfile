@@ -1,26 +1,13 @@
-FROM ubuntu:22.04
+FROM continuumio/miniconda3:latest
 
 WORKDIR /app
 
-# Update GPG keys and install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    gpg-agent \
-    wget \
-    && rm -rf /var/lib/apt/lists/* && \
-    wget -O - https://archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/ubuntu-archive-keyring.gpg
+# Create conda environment
+RUN conda create -n storm python=3.11 -y && \
+    conda install -n storm git -y
 
-# Install Python and essential system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    python3.11 \
-    python3-pip \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set Python aliases
-RUN ln -s /usr/bin/python3 /usr/bin/python && \
-    ln -s /usr/bin/pip3 /usr/bin/pip
+# Make RUN commands use the conda environment
+SHELL ["conda", "run", "-n", "storm", "/bin/bash", "-c"]
 
 # Copy only necessary files first to leverage Docker cache
 COPY requirements.txt .
