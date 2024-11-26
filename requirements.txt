@@ -7,6 +7,10 @@ toml
 numpy>=1.24.0
 torch>=2.0.0
 openai>=1.0.0
-together
+together>=0.1.0
+anthropic>=0.3.0
+google-generativeai>=0.1.0
+groq>=0.4.0
+mistralai>=0.0.3
 aiohttp
 scikit-learn>=1.3.0
