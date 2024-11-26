@@ -26,8 +26,8 @@ while IFS= read -r topic || [ -n "$topic" ]; do
         "$topic"
     
     echo "Completed processing: $topic"
-    echo "Waiting 30 seconds before next topic..."
-    sleep 30
+    echo "Waiting 3 seconds before next topic..."
+    sleep 3
 done < "$1"
 
 echo "All topics processed"
