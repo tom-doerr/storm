@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        BUILDKIT_INLINE_CACHE: "0"
     volumes:
       - ~/.cache/huggingface:/root/.cache/huggingface
     env_file:
