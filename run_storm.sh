@@ -10,14 +10,26 @@ fi
 CONDA_PATH=$(conda info --base)
 source "${CONDA_PATH}/etc/profile.d/conda.sh"
 
-# Check if storm environment exists
-if ! conda env list | grep -q "^storm "; then
-    echo "storm environment not found. Please create it first with: conda create -n storm python=3.11"
-    exit 1
+# Remove existing storm environment if it exists
+if conda env list | grep -q "^storm "; then
+    echo "Removing existing storm environment..."
+    conda deactivate
+    conda env remove -n storm
 fi
+
+# Create fresh environment with specific dependencies
+echo "Creating new storm environment..."
+conda create -n storm python=3.11 -y
 
 # Activate conda environment
 conda activate storm
+
+# Install required packages
+echo "Installing required packages..."
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+pip install transformers sentence-transformers
+pip install tensorflow
+pip install openai together
 
 # Set and create output directory if it doesn't exist
 OUTPUT_DIR="./results"
