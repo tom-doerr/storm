@@ -1,12 +1,18 @@
-FROM python:3.11-slim
+FROM ubuntu:22.04
 
 WORKDIR /app
 
-# Install only essential system dependencies
+# Install Python and essential system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    python3.11 \
+    python3-pip \
     git \
     && rm -rf /var/lib/apt/lists/*
+
+# Set Python aliases
+RUN ln -s /usr/bin/python3 /usr/bin/python && \
+    ln -s /usr/bin/pip3 /usr/bin/pip
 
 # Copy only necessary files first to leverage Docker cache
 COPY requirements.txt .
