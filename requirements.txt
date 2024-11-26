@@ -15,6 +15,6 @@ setproctitle
 future
 aiohttp==3.8.1
 rich==12.5.1
-tensorboard==2.9.0
-google-auth-oauthlib>=0.5,<1.1
+tensorboard>=2.9.0,<2.10.0
+google-auth-oauthlib>=0.4.1,<0.5
 tensorboard-data-server>=0.7.0,<0.8.0
