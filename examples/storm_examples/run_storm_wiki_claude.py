@@ -103,6 +103,7 @@ if __name__ == '__main__':
                              'part can speed up by using multiple threads. Consider reducing it if keep getting '
                              '"Exceed rate limit" error when calling LM API.')
     parser.add_argument('--retriever', type=str, choices=['bing', 'you', 'brave', 'serper', 'duckduckgo', 'tavily', 'searxng'],
+                        default='you',
                         help='The search engine API to use for retrieving information.')
     # stage of the pipeline
     parser.add_argument('--do-research', action='store_true',
