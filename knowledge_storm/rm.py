@@ -786,10 +786,16 @@ class DuckDuckGoSearchRM(dspy.Retrieve):
         giveup=giveup_hdlr,
     )
     def request(self, query: str):
-        results = self.ddgs.text(
-            query, max_results=self.k, backend=self.duck_duck_go_backend
-        )
-        return results
+        if not query or not query.strip():
+            return []
+        try:
+            results = self.ddgs.text(
+                query.strip(), max_results=self.k, backend=self.duck_duck_go_backend
+            )
+            return results
+        except AssertionError:
+            # Handle the case where keywords are empty
+            return []
 
     def forward(
         self, query_or_queries: Union[str, List[str]], exclude_urls: List[str] = []
